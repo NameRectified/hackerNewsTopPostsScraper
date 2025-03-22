@@ -1,4 +1,5 @@
 '''
+Notes:
     The goal is to scrape the posts from hackernews with score greated than 100
     look at soup.select in the documentation, it could have made the work a lot easier
     Enumerate is used in lists when we want the elements of the list as well as the index of those items.
@@ -34,8 +35,8 @@ def create_webpage_content(links_list):
     with open('hnPlus.html','w',encoding='utf-8') as file:
         file.write(main_content)
 
-# page_count = int(input("Enter the number of pages you wish to scrape:"))
-page_count = 5
+page_count = int(input("Enter the number of pages you wish to scrape:"))
+# page_count = 5
 for count in range(1,page_count+1):
     response = requests.get(f"https://news.ycombinator.com/?p={count}")
     soup = BeautifulSoup(response.text,'html.parser')
