@@ -6,42 +6,53 @@ Notes:
 '''
 import requests
 from bs4 import BeautifulSoup
-import pprint # for better printing
+import sys
+from jinja2 import Environment,FileSystemLoader,select_autoescape
+import webbrowser
+import os
 
-def sort_stories(dict):
-    return sorted(dict,key=lambda key:key['votes'],reverse=True)
-    # return sorted(dict,key=lambda key:key[1]['votes'])
-    # return dict[votes]
-posts = []
-def story_scraper():
-    for vote_elem in  soup.find_all('span',class_='score'):
-        vote =int(vote_elem.text.split(' ')[0]) # you can use .replace(' points','') like on the website the score is stored as eg 100 points and replace points with empty string and then convert to integer
-        if vote>=100:
-            # print(score)
-            id_ = int(vote_elem.get('id').split('_')[1])
-            row_with_score_greater_than_100 = soup.find(id=id_)
-            for titleline in row_with_score_greater_than_100.find_all('span',class_="titleline"):
-                for link in titleline.find_all('a',recursive=False): # we want only the direct anchor children and not all anchor tags
-                    posts.append({'title':link.text,'link':link.get('href',None),'votes':vote})
-        # mega_dict.append({count:posts})
-        # pprint.pprint(mega_dict)
+class HNScraper():
+    def __init__(self,pageCount):
+        self.posts = []
+        try:
+            with requests.Session() as session:
+                for page in range(1,pageCount+1):
+                    response = session.get(f"https://news.ycombinator.com/?p={page}")
+                    soup = BeautifulSoup(response.text,'html.parser')
+                    self.posts.extend(self.scrape_stories(soup))
+        except requests.exceptions.RequestException:
+            sys.exit("Could not connect to hacker news. Please try again later.")
 
-def create_webpage_content(links_list):
-    link_content = ''
-    for item in links_list:
-        link_content+=f"<div><a href={item['link']}>{item['title']}</a><p>{item['votes']}</p></div>"
-    # return content
-    main_content = f"<html><head><title>Title</title></head><body><h2>HackerNews+</h2>{link_content}</body></html> "
-    with open('hnPlus.html','w',encoding='utf-8') as file:
-        file.write(main_content)
 
-page_count = int(input("Enter the number of pages you wish to scrape:"))
-# page_count = 5
-for count in range(1,page_count+1):
-    response = requests.get(f"https://news.ycombinator.com/?p={count}")
-    soup = BeautifulSoup(response.text,'html.parser')
-    # print(f"This is for page {count} ")
-    story_scraper()
+    def sort_stories(self):
+        return sorted(self.posts,key=lambda key:key['votes'],reverse=True)
 
-# pprint.pprint(sort_stories(posts))
-create_webpage_content(sort_stories(posts))
+    def scrape_stories(self,soup):
+        posts = []
+        for vote_elem in soup.find_all('span',class_='score'):
+            vote =int(vote_elem.text.split(' ')[0])
+            if vote>=100:
+                id_ = int(vote_elem.get('id').split('_')[1])
+                row_with_score_greater_than_100 = soup.find(id=id_)
+                for titleline in row_with_score_greater_than_100.find_all('span',class_="titleline"):
+                    # to get only direct anchor children
+                    for link in titleline.find_all('a',recursive=False):
+                        posts.append({'title':link.text,'link':link.get('href',None),'votes':vote})
+        return posts
+    def create_webpage(self,links):
+        env = Environment(
+        loader=FileSystemLoader("./templates"),
+        autoescape=select_autoescape()
+        )
+        template = env.get_template("index.html")
+        rendered_html = template.render(links=links)
+        with open("output.html","w",encoding="utf-8") as file:
+            file.write(rendered_html)
+
+if __name__=="__main__":
+    page_count = int(input("Enter the number of pages you wish to scrape:"))
+    scraper = HNScraper(page_count)
+    posts = scraper.posts
+    sorted_stories = scraper.sort_stories()
+    scraper.create_webpage(sorted_stories)
+    webbrowser.open("output.html")

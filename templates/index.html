@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HackerNews+</title>
+    <link rel="stylesheet" href="static/style.css">
+</head>
+<body>
+    <h2>HackerNews</h2>
+    <div class="container">
+        {% for item in links %}
+        <div>
+            <a href='{{item.link}}'>{{item.title}}</a>
+            <p>{{item.votes}}</p>
+        </div>
+        {% endfor %}
+    </div>
+</body>
+</html>
