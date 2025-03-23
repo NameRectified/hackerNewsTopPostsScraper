@@ -1,32 +1,57 @@
-# HackerNews+ | Top Stories Scraper
+# **HackerNews+ | Top Stories Scraper**  
 
-## Overview
-This script scrapes **Hacker News** and retrieves posts with **100+ votes**, then sorts them in descending order and generates a **basic HTML file** (Work in Progress) displaying the results.
+## **Overview**  
+**HackerNews+** is a Python-based web scraper that extracts **top-voted stories** (100+ points) from **Hacker News** and generates a webpage displaying the results.  
 
-## How It Works
-1. Sends requests to **Hacker News** pages using `requests`.
-2. Parses the HTML using `BeautifulSoup`.
-3. Extracts **titles, links, and vote counts** for posts with **100+ votes**.
-4. Sorts the posts in **descending order** based on votes.
-5. **(Work in Progress)** Generates a **simple HTML file** (`hnPlus.html`) with the scraped data.
+## **Features**  
+✅ Scrapes multiple pages of Hacker News  
+✅ Filters stories with **100+ votes**  
+✅ Sorts stories in **descending order** by vote count  
+✅ Generates a **styled HTML file** (`output.html`)  
+✅ Automatically opens the generated page in a browser  
 
-## Dependencies
-- `requests` (for fetching web pages)
-- `beautifulsoup4` (for parsing HTML)
+---
 
-## Installation
-Run the following command to install the required dependencies:
+## **How It Works**  
+1. Sends requests to **Hacker News** pages using `requests`.  
+2. Parses the HTML using `BeautifulSoup`.  
+3. Extracts **titles, links, and vote counts** for posts with **100+ votes**.  
+4. Sorts the posts in **descending order** based on votes.  
+5. Uses **Jinja2** templating to dynamically create an HTML page.  
+6. Applies **CSS styling** for better readability.  
+7. Opens the generated webpage automatically after execution.  
+
+---
+
+## **Installation**  
+Ensure you have Python **3.x** installed.  
+Then, install the required dependencies:  
+
 ```bash
-pip install requests beautifulsoup4
+pip install requests beautifulsoup4 jinja2
 ```
 
-## Usage
-Run the script:
+---
+
+## **Usage**  
+Run the script by executing the following command:  
+
 ```bash
 python main.py
 ```
-When prompted enter the number of pages you wish to scrape.
 
-Once the script completes, open **hnPlus.html** in a web browser to view the extracted posts.  
-🚧 **Note:** The generated HTML file is a **Work in Progress** and may require further styling improvements.
+When prompted, enter the **number of pages** you wish to scrape.  
+
+### **What Happens Next?**  
+- The script will fetch and process the Hacker News posts.  
+- A new file, **output.html**, will be created with the extracted stories.  
+- The file will **automatically open** in your default web browser.  
+
+---
+
+## **Customization**  
+You can modify the **HTML template** (`templates/index.html`) and **CSS styles** (`static/style.css`) to enhance the appearance of the generated page.  
+
+---
+  
 
