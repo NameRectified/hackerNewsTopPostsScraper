@@ -9,12 +9,16 @@
 <body>
     <h2>HackerNews</h2>
     <div class="container">
-        {% for item in links %}
-        <div>
-            <a href='{{item.link}}'>{{item.title}}</a>
-            <p>{{item.votes}}</p>
-        </div>
-        {% endfor %}
+        <ol>
+            {% for item in links %}
+            <li>
+                    <div>
+                        <a href='{{item.link}}'>{{item.title}}</a>
+                        <p>{{item.votes}} points</p>
+                    </div>
+            </li>
+            {% endfor %}
+        </ol>
     </div>
 </body>
 </html>
