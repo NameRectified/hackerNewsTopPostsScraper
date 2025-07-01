@@ -42,7 +42,6 @@ python main.py
 
 When prompted, enter the **number of pages** you wish to scrape.  
 
-### **What Happens Next?**  
 - The script will fetch and process the Hacker News posts.  
 - A new file, **output.html**, will be created with the extracted stories.  
 - The file will **automatically open** in your default web browser.  
