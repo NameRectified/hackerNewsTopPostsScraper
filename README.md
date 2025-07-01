@@ -4,11 +4,11 @@
 **HackerNews+** is a Python-based web scraper that extracts **top-voted stories** (100+ points) from **Hacker News** and generates a webpage displaying the results.  
 
 ## **Features**  
-✅ Scrapes multiple pages of Hacker News  
-✅ Filters stories with **100+ votes**  
-✅ Sorts stories in **descending order** by vote count  
-✅ Generates a **styled HTML file** (`output.html`)  
-✅ Automatically opens the generated page in a browser  
+Scrapes multiple pages of Hacker News  
+Filters stories with **100+ votes**  
+Sorts stories in **descending order** by vote count  
+Generates a **styled HTML file** (`output.html`)  
+Automatically opens the generated page in a browser  
 
 ---
 
